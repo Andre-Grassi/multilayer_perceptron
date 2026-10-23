@@ -10,14 +10,14 @@ from ..core.functions import StepFunction
 #   If weather is good and if ONE of the other factors is in favor = 1,
 #   else = 0
 
-perceptron = Perceptron(inputs=3, w=[4, 2, 2], b=-4, a=StepFunction)
+perceptron = Perceptron(inputs=3, w=[4, 2, 2], b=-4, f=StepFunction)
 
 for weather in [0, 1]:
     for company in [0, 1]:
         for proximity in [0, 1]:
             print(f"Weather: {weather} | Company: {company} | Proximity: {proximity}")
-            output = perceptron.z([weather, company, proximity])
-            if output >= 1:
+            output = perceptron.a([weather, company, proximity])
+            if output == 1:
                 print("Will go to the movies :)\n")
             else:
                 print("Won't go to the movies :(\n")
