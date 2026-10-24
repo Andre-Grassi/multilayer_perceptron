@@ -12,16 +12,18 @@ Output:
    else = 0
 """
 
+import numpy as np
+
 from ..core.perceptron import Perceptron
 from ..core.functions import StepFunction
 
-perceptron = Perceptron(inputs=3, w=[4, 2, 2], b=-4, f=StepFunction)
+perceptron = Perceptron(inputs=3, w=np.array([4.0, 2.0, 2.0]), b=-4.0, f=StepFunction)
 
 for weather in [0, 1]:
     for company in [0, 1]:
         for proximity in [0, 1]:
             print(f"Weather: {weather} | Company: {company} | Proximity: {proximity}")
-            output = perceptron.a([weather, company, proximity])
+            output = perceptron.a(np.array([weather, company, proximity], dtype=float))
             if output == 1:
                 print("Will go to the movies :)\n")
             else:

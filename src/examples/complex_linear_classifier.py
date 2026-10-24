@@ -10,18 +10,20 @@ But actually it is meant to be
 This error was corrected in this code.
 """
 
+import numpy as np
+
 from ..core.perceptron import Perceptron, FullyConnectedMLP
 from ..core.functions import StepFunction
 
 hidden_layer = [
-    Perceptron(2, [-1, -1], 7, StepFunction),
-    Perceptron(2, [2, 2], -6, StepFunction),
-    Perceptron(2, [2, -2], 6, StepFunction),
-    Perceptron(2, [-5, 2], 20, StepFunction),
+    Perceptron(2, np.array([-1.0, -1.0]), 7.0, StepFunction),
+    Perceptron(2, np.array([2.0, 2.0]), -6.0, StepFunction),
+    Perceptron(2, np.array([2.0, -2.0]), 6.0, StepFunction),
+    Perceptron(2, np.array([-5.0, 2.0]), 20.0, StepFunction),
 ]
 
-output_layer = [Perceptron(4, [2, 2, 2, 2], -7, StepFunction)]
+output_layer = [Perceptron(4, np.array([2.0, 2.0, 2.0, 2.0]), -7.0, StepFunction)]
 
 mlp = FullyConnectedMLP(2, [hidden_layer, output_layer])
-print("x1 = 0 | x2 = 3 :", mlp.a([0, 0]))
-print("x1 = 2 | x2 = 4 :", mlp.a([2, 4]))
+print("x1 = 0 | x2 = 0 :", mlp.a(np.array([0.0, 0.0])))
+print("x1 = 2 | x2 = 4 :", mlp.a(np.array([2.0, 4.0])))
