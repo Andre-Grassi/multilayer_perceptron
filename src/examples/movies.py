@@ -1,14 +1,19 @@
+"""Decides if one should go to the movies based on weather, company, proximity.
+
+Reference: https://youtu.be/OFbnpY_k7js?t=133&si=trc9UtUHm8LKwb0e
+
+Models the following:
+Inputs:
+   x1: Weather, 1 is good, 0 is bad.
+   x2: Company, 1 is with company, 0 without.
+   x3: Proximity, 1 is near, 0 is far.
+Output:
+   If weather is good and if ONE of the other factors is in favor = 1,
+   else = 0
+"""
+
 from ..core.perceptron import Perceptron
 from ..core.functions import StepFunction
-
-# Models the following:
-# Inputs:
-#   x1: Weather, 1 is good, 0 is bad.
-#   x2: Company, 1 is with company, 0 without.
-#   x3: Proximity, 1 is near, 0 is far.
-# Output:
-#   If weather is good and if ONE of the other factors is in favor = 1,
-#   else = 0
 
 perceptron = Perceptron(inputs=3, w=[4, 2, 2], b=-4, f=StepFunction)
 
