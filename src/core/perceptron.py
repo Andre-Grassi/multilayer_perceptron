@@ -69,6 +69,20 @@ class FullyConnectedMLP:
             inputs = next_layer_inputs
 
         return inputs
+    def cost_for_x(self, desired_a: np.ndarray, a: np.ndarray) -> float:
+        """Calculates the squared error cost between desired and actual activation."""
+        sub = desired_a - a
+        magnitude = np.linalg.norm(sub)
+        return math.pow(magnitude, 2)
+
+    def cost(self, desired_a_arr: np.ndarray, a_arr: np.ndarray) -> float:
+        """Calculates the mean squared error cost between desired and actual activations."""
+        costs = np.empty(len(desired_a_arr))
+
+        for i in range(len(desired_a_arr)):
+            costs[i] = self.cost_for_x(desired_a_arr[i], a_arr[i])
+
+        return costs.mean()
     def _check_layer_dimensions(self, inputs, layers):
         prev_dim = inputs
         for layer_idx, layer in enumerate(layers):
