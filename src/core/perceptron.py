@@ -15,12 +15,22 @@ class Perceptron:
     """
 
     def __init__(
-        self, inputs: int, w: np.ndarray, b: float, f: ActivationFunctionType
+        self,
+        inputs: int,
+        f: ActivationFunctionType,
+        w: np.ndarray | None = None,
+        b: float = 0,
     ):
         self.inputs = inputs
-        self.w = np.asarray(w, dtype=float)
-        self.b = b
         self.f = f
+
+        if w is not None:
+            self.w = w
+        else:
+            rng = np.random.default_rng()
+            self.w = rng.random(size=(inputs))
+
+        self.b = b
 
         if inputs != len(self.w):
             raise ValueError("Number of inputs different than number of weights")
