@@ -1,7 +1,7 @@
 import numpy as np
 from collections.abc import Callable
 import math
-from .functions import ActivationFunctionType
+from .activations import ActivationFunctionType
 
 
 class Perceptron:

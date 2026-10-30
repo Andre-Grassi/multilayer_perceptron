@@ -4,7 +4,7 @@ import pandas as pd
 from PIL import Image
 
 from ..core.perceptron import Perceptron, FullyConnectedMLP
-from ..core.functions import SigmoidFunction
+from ..core.activations import SigmoidFunction
 
 MNIST_TEST_DATASET_PATH = "datasets/mnist/test.parquet"
 MNIST_TRAIN_DATASET_PATH = "datasets/mnist/train.parquet"

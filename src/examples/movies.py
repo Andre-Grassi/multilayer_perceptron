@@ -15,7 +15,7 @@ Output:
 import numpy as np
 
 from ..core.perceptron import Perceptron
-from ..core.functions import StepFunction
+from ..core.activations import StepFunction
 
 perceptron = Perceptron(inputs=3, w=np.array([4.0, 2.0, 2.0]), b=-4.0, f=StepFunction)
 
