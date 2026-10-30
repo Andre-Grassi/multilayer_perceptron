@@ -16,13 +16,13 @@ from ..core.perceptron import Perceptron, FullyConnectedMLP
 from ..core.functions import StepFunction
 
 hidden_layer = [
-    Perceptron(2, np.array([-1.0, -1.0]), 7.0, StepFunction),
-    Perceptron(2, np.array([2.0, 2.0]), -6.0, StepFunction),
-    Perceptron(2, np.array([2.0, -2.0]), 6.0, StepFunction),
-    Perceptron(2, np.array([-5.0, 2.0]), 20.0, StepFunction),
+    Perceptron(2, StepFunction, np.array([-1.0, -1.0]), 7.0),
+    Perceptron(2, StepFunction, np.array([2.0, 2.0]), -6.0),
+    Perceptron(2, StepFunction, np.array([2.0, -2.0]), 6.0),
+    Perceptron(2, StepFunction, np.array([-5.0, 2.0]), 20.0),
 ]
 
-output_layer = [Perceptron(4, np.array([2.0, 2.0, 2.0, 2.0]), -7.0, StepFunction)]
+output_layer = [Perceptron(4, StepFunction, np.array([2.0, 2.0, 2.0, 2.0]), -7.0)]
 
 mlp = FullyConnectedMLP(2, [hidden_layer, output_layer])
 print("x1 = 0 | x2 = 0 :", mlp.a(np.array([0.0, 0.0])))
