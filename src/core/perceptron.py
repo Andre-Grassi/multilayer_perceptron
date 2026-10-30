@@ -58,6 +58,8 @@ class FullyConnectedMLP:
         self.inputs = inputs
         self.layers = layers
 
+        self._check_layer_dimensions(inputs, layers)
+
     def a(self, x: np.ndarray) -> np.ndarray:
         inputs = np.asarray(x, dtype=float)
         for layer in self.layers:
@@ -66,6 +68,13 @@ class FullyConnectedMLP:
             )
             inputs = next_layer_inputs
 
-        outputs = next_layer_inputs
-
-        return outputs
+    def _check_layer_dimensions(self, inputs, layers):
+        prev_dim = inputs
+        for layer_idx, layer in enumerate(layers):
+            for p_idx, perceptron in enumerate(layer):
+                if perceptron.inputs != prev_dim:
+                    raise ValueError(
+                        f"Layer {layer_idx} perceptron {p_idx} expects {perceptron.inputs} inputs, "
+                        f"but previous layer output dimension is {prev_dim}."
+                    )
+            prev_dim = len(layer)
