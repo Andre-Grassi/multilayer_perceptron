@@ -68,6 +68,7 @@ class FullyConnectedMLP:
             )
             inputs = next_layer_inputs
 
+        return inputs
     def _check_layer_dimensions(self, inputs, layers):
         prev_dim = inputs
         for layer_idx, layer in enumerate(layers):
