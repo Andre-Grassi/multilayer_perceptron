@@ -69,12 +69,18 @@ class FullyConnectedMLP:
         """
         inputs = np.asarray(x, dtype=float)
         for layer in self.layers:
-            next_layer_inputs = np.array(
-                [perceptron.a(inputs) for perceptron in layer], dtype=float
-            )
+            next_layer_inputs = self.a_for_layer(inputs, layer)
             inputs = next_layer_inputs
 
         return inputs
+
+    def a_for_layer(
+        self, inputs: np.ndarray, layer: list[Perceptron] | int
+    ) -> np.ndarray:
+        if isinstance(layer, int):
+            layer = self.layers[layer]
+
+        return np.array([perceptron.a(inputs) for perceptron in layer], dtype=float)
 
     def cost_for_x(self, desired_a: np.ndarray, a: np.ndarray) -> float:
         """Calculates the squared error cost between desired and actual activation."""
