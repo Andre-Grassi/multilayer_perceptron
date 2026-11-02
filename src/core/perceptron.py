@@ -62,6 +62,11 @@ class FullyConnectedMLP:
         self._check_layer_dimensions(inputs, layers)
 
     def a(self, x: np.ndarray) -> np.ndarray:
+        """Calculate the final activation for the whole network.
+
+        Args:
+            x: A list of the inputs
+        """
         inputs = np.asarray(x, dtype=float)
         for layer in self.layers:
             next_layer_inputs = np.array(
