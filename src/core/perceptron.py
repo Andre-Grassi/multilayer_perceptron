@@ -97,6 +97,90 @@ class FullyConnectedMLP:
 
         return costs.mean()
 
+    def backpropagation_ai(
+        self, x: np.ndarray, desired_a: np.ndarray
+    ) -> tuple[list[np.ndarray], list[np.ndarray]]:
+        """Calculate weight and bias gradients for one training example.
+
+        Returns:
+            A tuple containing weight gradients and bias gradients, both in
+            the same layer order as ``self.layers``.
+        """
+        inputs = np.asarray(x, dtype=float).reshape(-1)
+        desired = np.asarray(desired_a, dtype=float).reshape(-1)
+
+        if inputs.size != self.inputs:
+            raise ValueError(f"Expected {self.inputs} inputs, got {inputs.size}")
+
+        activations = [inputs]
+        pre_activations = []
+
+        for layer in self.layers:
+            layer_input = activations[-1]
+            layer_z = np.array(
+                [perceptron.z(layer_input) for perceptron in layer], dtype=float
+            )
+            layer_a = np.array(
+                [perceptron.f(z) for perceptron, z in zip(layer, layer_z)],
+                dtype=float,
+            )
+            pre_activations.append(layer_z)
+            activations.append(layer_a)
+
+        if activations[-1].size != desired.size:
+            raise ValueError(
+                f"Expected {activations[-1].size} desired outputs, got {desired.size}"
+            )
+
+        deltas = [None] * len(self.layers)
+        output_layer = self.layers[-1]
+        output_derivative = np.array(
+            [
+                self._activation_derivative(perceptron.f, z)
+                for perceptron, z in zip(output_layer, pre_activations[-1])
+            ],
+            dtype=float,
+        )
+        deltas[-1] = 2 * (activations[-1] - desired) * output_derivative
+
+        for layer_index in range(len(self.layers) - 2, -1, -1):
+            layer = self.layers[layer_index]
+            next_layer = self.layers[layer_index + 1]
+            next_delta = deltas[layer_index + 1]
+            propagated = np.array(
+                [
+                    sum(
+                        next_delta[j] * next_layer[j].w[i]
+                        for j in range(len(next_layer))
+                    )
+                    for i in range(len(layer))
+                ],
+                dtype=float,
+            )
+            derivative = np.array(
+                [
+                    self._activation_derivative(perceptron.f, z)
+                    for perceptron, z in zip(layer, pre_activations[layer_index])
+                ],
+                dtype=float,
+            )
+            deltas[layer_index] = propagated * derivative
+
+        weight_gradients = [
+            delta[:, np.newaxis] * activations[layer_index][np.newaxis, :]
+            for layer_index, delta in enumerate(deltas)
+        ]
+        bias_gradients = [delta.copy() for delta in deltas]
+
+        return weight_gradients, bias_gradients
+
+    @staticmethod
+    def _activation_derivative(activation, z: float) -> float:
+        epsilon = 1e-6
+        return float(
+            (activation(z + epsilon) - activation(z - epsilon)) / (2 * epsilon)
+        )
+
     # TODO gradient descent
 
     # TODO backpropagation
