@@ -12,8 +12,8 @@ This error was corrected in this code.
 
 import numpy as np
 
-from ..core.perceptron import Perceptron, FullyConnectedMLP
-from ..core.activations import StepFunction
+from ...core.perceptron import Perceptron, FullyConnectedMLP
+from ...core.activations import StepFunction
 
 hidden_layer = [
     Perceptron(2, StepFunction, np.array([-1.0, -1.0]), 7.0),
